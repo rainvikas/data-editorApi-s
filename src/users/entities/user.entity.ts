@@ -1,22 +1,22 @@
 import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
 import { Geometry } from 'geojson';
-@Entity('imageData')
+@Entity('imagedata')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
-  latitude: string;
+  @Column({ type:'decimal', nullable: true})
+  lat: any;
+
+  @Column({ type:'decimal', nullable:true})
+  long: any;
+
+  @Column({ type:'decimal', nullable:true })
+  alt: any;
 
   @Column({ nullable: true })
-  longitude: string;
-
-  @Column({ nullable: true })
-  altitude: string;
-
-  @Column({ nullable: true })
-  filename: string;
+  fname: string;
 
   @Column({ type: 'jsonb', default: {} })
   raw_data: any;
@@ -29,6 +29,5 @@ export class User {
   })
   geom: Geometry;
 
-  // @Column({ nullable: true })
-  // created_date:
+  
 }
