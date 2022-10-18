@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { from } from 'rxjs';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
@@ -9,6 +10,13 @@ export class UsersService {
     @InjectRepository(User) private readonly User: Repository<User>,
   ) {}
 
+
+  async create(users) {
+    //console.log(createLocationDto);
+
+    return from(this.User.save(users));
+  }
+  
   async find(BBox) {
     let data1: any = await this.User
       .query(`SELECT * FROM imageData WHERE ST_Contains(
@@ -16,7 +24,6 @@ export class UsersService {
               ST_MakeEnvelope(${BBox},4326)  
               ,4326)
           ,imageData.geom::geometry)`);
-
     let data = await data1.map((ele) => {
       return {
         id: ele.id,
@@ -24,6 +31,6 @@ export class UsersService {
         long: ele.long,
       };
     });
-    return { data };
+    return { NoOfData: data.length , data };
   }
 }
